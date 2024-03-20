@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-struct ArraySlice[T] {
+pub struct ArraySlice[T] {
   array : Array[T]
   start : Int
   end : Int
@@ -106,7 +106,7 @@ pub fn sort_by[T](self : Array[T], cmp : (T, T) -> Int) -> Unit {
   )
 }
 
-fn quick_sort[T](
+pub fn quick_sort[T](
   arr : ArraySlice[T],
   cmp : (T, T) -> Int,
   pred : Option[T],
@@ -173,7 +173,7 @@ fn quick_sort[T](
   }
 }
 
-fn get_limit(len : Int) -> Int {
+pub fn get_limit(len : Int) -> Int {
   let mut len = len
   let mut limit = 0
   while len > 0 {

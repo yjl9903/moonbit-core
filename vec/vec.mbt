@@ -602,28 +602,28 @@ test "swap" {
   @assertion.assert_eq(v[2], 5)?
 }
 
-/// Partition function for quicksort.
-fn partition[T : Compare](self : Vec[T], left : Int, right : Int) -> Int {
-  let pivot = right
-  let mut i = left - 1
-  for j = left; j < right; j = j + 1 {
-    if self[j] < self[pivot] {
-      i = i + 1
-      self.swap(i, j)
-    }
-  }
-  self.swap(i + 1, pivot)
-  i + 1
-}
+// /// Partition function for quicksort.
+// fn partition[T : Compare](self : Vec[T], left : Int, right : Int) -> Int {
+//   let pivot = right
+//   let mut i = left - 1
+//   for j = left; j < right; j = j + 1 {
+//     if self[j] < self[pivot] {
+//       i = i + 1
+//       self.swap(i, j)
+//     }
+//   }
+//   self.swap(i + 1, pivot)
+//   i + 1
+// }
 
-/// Quicksort helper
-fn quicksort[T : Compare](self : Vec[T], left : Int, right : Int) -> Unit {
-  if left <= right {
-    let idx = self.partition(0, right)
-    self.quicksort(left, idx - 1)
-    self.quicksort(idx + 1, right)
-  }
-}
+// /// Quicksort helper
+// fn quicksort[T : Compare](self : Vec[T], left : Int, right : Int) -> Unit {
+//   if left <= right {
+//     let idx = self.partition(0, right)
+//     self.quicksort(left, idx - 1)
+//     self.quicksort(idx + 1, right)
+//   }
+// }
 
 /// Sort the vector in place.
 /// 
@@ -635,7 +635,13 @@ fn quicksort[T : Compare](self : Vec[T], left : Int, right : Int) -> Unit {
 /// v.sort()
 /// ```
 pub fn sort[T : Compare](self : Vec[T]) -> Unit {
-  self.quicksort(0, self.len - 1)
+  // self.quicksort(0, self.len - 1)
+  @array.quick_sort(
+    { array: self.buf.0, start: 0, end: self.len },
+    T::compare,
+    None,
+    @array.get_limit(self.length()),
+  )
 }
 
 test "sort" {

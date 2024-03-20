@@ -1,6 +1,7 @@
 {
   "import": [
     "moonbitlang/core/assertion",
-    "moonbitlang/core/string"
+    "moonbitlang/core/string",
+    "moonbitlang/core/array"
   ]
 }
