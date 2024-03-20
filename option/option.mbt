@@ -79,6 +79,69 @@ pub fn map[T, U](self : Option[T], f : (T) -> U) -> Option[U] {
   Some(f(self?))
 }
 
+test "map" {
+  let a = Option::Some(5)
+  let b : Option[Int] = None
+  @assertion.assert_eq(a.map(fn(x) { x * 2 }), Some(10))?
+  @assertion.assert_eq(b.map(fn(x) { x * 2 }), None)?
+}
+
+/// Maps the value of an `Option` using a provided function or the provided default.
+///
+/// # Example
+///
+/// ```
+/// let a = Some(5)
+/// debug(a.map_or(0, fn(x){ x * 2 })) //output: 10
+///
+/// let b = None
+/// debug(b.map_or(0, fn(x){ x * 2 })) //output: 0
+/// ```
+pub fn map_or[T, U](self : Option[T], default : U, f : (T) -> U) -> U {
+  match self {
+    None => default
+    Some(t) => f(t)
+  }
+}
+
+test "map_or" {
+  let a = Option::Some(5)
+  let b : Option[Int] = None
+  @assertion.assert_eq(a.map_or(0, fn(x) { x * 2 }), 10)?
+  @assertion.assert_eq(b.map_or(0, fn(x) { x * 2 }), 0)?
+}
+
+/// Maps the value of an `Option` using a provided function or the provided default.
+/// 
+/// Default is lazily evaluated
+///
+/// # Example
+///
+/// ```
+/// let a = Some(5)
+/// debug(a.map_or_else(fn() { 0 }, fn(x){ x * 2 })) //output: 10
+///
+/// let b = None
+/// debug(b.map_or_else(fn() { 0 }, fn(x){ x * 2 })) //output: 0
+/// ```
+pub fn map_or_else[T, U](
+  self : Option[T],
+  default : () -> U,
+  f : (T) -> U
+) -> U {
+  match self {
+    None => default()
+    Some(t) => f(t)
+  }
+}
+
+test "map_or_else" {
+  let a = Option::Some(5)
+  let b : Option[Int] = None
+  @assertion.assert_eq(a.map_or_else(fn() { 0 }, fn(x) { x * 2 }), 10)?
+  @assertion.assert_eq(b.map_or_else(fn() { 0 }, fn(x) { x * 2 }), 0)?
+}
+
 /// Binds an option to a function that returns another option.
 ///
 /// # Example
